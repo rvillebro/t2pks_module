@@ -1,0 +1,60 @@
+<div class="more-details">
+	<h3>Type II PKS gene cluster prediction details</h3>
+	<table class="prediction-text" cellpadding="2">
+		{% if results.cluster_predictions[cluster.number].starter_unit %}
+		<tr >
+			<td valign="top"><strong>Starter unit(s):</strong></td>
+			<td valign="top">
+				{% for unit, bitscore, evalue in results.cluster_predictions[cluster.number].starter_unit %}
+				{{unit}} (Score: {{bitscore}}; E-value: {{evalue}})<br>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+		{% if results.cluster_predictions[cluster.number].malonyl_elongations %}
+		<tr>
+			<td valign="top"><strong>Malonyl elongatiuons:</strong></td>
+			<td valign="top">
+				{% for elongations, bitscore, evalue in results.cluster_predictions[cluster.number].malonyl_elongations %}
+				{{elongations}} (Score: {{bitscore}}; E-value: {{evalue}})<br>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+		{% if results.cluster_predictions[cluster.number].product_class %}
+		<tr>
+			<td valign="top"><strong>Product class(es):</strong></td>
+			<td valign="top">
+				{% for class in results.cluster_predictions[cluster.number].product_class %}
+				{{ class }}<br>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+		{% if results.cluster_predictions[cluster.number].molecular_weight %}
+		<tr>
+			<td valign="top"><strong>Product molecular weight(s):</strong></td>
+			<td valign="top">
+				{% for comb, weight in results.cluster_predictions[cluster.number].molecular_weight.items() %}
+				{{ comb }}: {{ '%0.2f'| format(weight|float) }} Da<br>
+				{% endfor %}
+			</td>
+		</tr>
+		{% endif %}
+	</table>
+	<dl class="prediction-text">
+		{% for cds, predictions in results.cluster_predictions[cluster.number].cds_predictions.items() %}
+		<dt><strong>{{ cds }}</strong></dt>
+			{% for ptype, pfunc, bitscore, evalue in predictions %}
+			<dd>
+				{{ptype}}
+				{% if pfunc %}
+					{{pfunc}}
+				{% endif %}
+				(Score: {{bitscore}}; E-value: {{evalue}})<br>
+			</dd>
+			{% endfor %}
+		{% endfor %}
+	</dl>
+
+</div>
